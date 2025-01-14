@@ -1,35 +1,18 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  // jsx 문법은 우리가 보기에는 HTML로 보이지만
+  // 실제 문법은
+  // return React.createElement("div", null, "Hello ", React.createElement ("b", null, "react"));
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {/* <fregment> */}
+      <h1>Hello React 안녕</h1>
+      <h2>잘 작동 하니?</h2>
+      <div>수정</div>
+      {/* </fregment> */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
