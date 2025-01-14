@@ -54,7 +54,10 @@ function App() {
           fontWeight: 'bold',
           padding: 16,
         }}
-      ></div>
+      >
+        {number}
+      </div>
+      <div className="react">{name}</div>
     </>
   );
 }
