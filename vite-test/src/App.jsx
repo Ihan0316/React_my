@@ -6,11 +6,11 @@ function App() {
   // return React.createElement("div", null, "Hello ", React.createElement ("b", null, "react"));
   return (
     <>
-      {/* <fregment> */}
+      {/* <fragment> */}
       <h1>Hello React 안녕</h1>
       <h2>잘 작동 하니?</h2>
       <div>수정</div>
-      {/* </fregment> */}
+      {/* </fragment> */}
     </>
   );
 }
