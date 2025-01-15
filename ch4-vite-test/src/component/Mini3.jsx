@@ -29,7 +29,6 @@ const Mini3 = () => {
         setSubmitted(true);
       }
     }
-    onReset;
   };
 
   const onReset = () => {
@@ -54,6 +53,7 @@ const Mini3 = () => {
       {submitted && (
         <>
           <h2>username : {username}</h2>
+          <h2>email : {email}</h2>
           <h2>password : {password}</h2>
         </>
       )}

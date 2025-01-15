@@ -40,7 +40,7 @@ const Mini2 = () => {
 
   return (
     <div>
-      <h1>미니 실습 2</h1>
+      <h1>미니 실습 2 - 유저이름, 메세지 표시</h1>
       {submitted && (
         <>
           <h2>username : {username}</h2>
