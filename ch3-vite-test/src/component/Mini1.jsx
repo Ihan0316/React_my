@@ -22,7 +22,7 @@ const Mini1 = () => {
         <input
           type="text"
           value={user}
-          onChange={(e) => setUser(e.target.value)}
+          onChange={(event) => setUser(event.target.value)}
         />
         <button onClick={onClickUser}>사용자</button>
         <button onClick={onClickDelete}>삭제</button>
