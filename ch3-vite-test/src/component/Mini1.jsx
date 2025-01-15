@@ -34,7 +34,7 @@ const Mini1 = () => {
         파란색
       </button>
       <button style={{ color: 'black' }} onClick={() => setColor('black')}>
-        검은색
+        색상 초기화
       </button>
     </div>
   );
