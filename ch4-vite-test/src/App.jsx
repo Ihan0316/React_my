@@ -1,6 +1,7 @@
 import './App.css';
 import EventPractice from './component/EventPractice';
 import EventPractice2 from './component/EventPractice2';
+import Mini2 from './component/Mini2';
 import Say from './component/say';
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
       <Say />
       <EventPractice />
       <EventPractice2 />
+      <Mini2 />
     </>
   );
 }
