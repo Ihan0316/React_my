@@ -7,7 +7,8 @@ function App() {
     <>
       <h1>{name}</h1>
       <div className="react">{name}</div>
-      <MyComponent />
+      {/* 자식 컴포넌트 */}
+      <MyComponent name="데이터를 부모에서 자식으로 ㅈ, 속성은 name으로 전달" />
     </>
   );
 }
