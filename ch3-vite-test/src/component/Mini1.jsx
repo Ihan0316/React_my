@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const Mini1 = () => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState('기본값 입니다.');
   const [color, setColor] = useState('black');
   const [user, setUser] = useState('');
 
@@ -9,6 +9,9 @@ const Mini1 = () => {
   const onClickLeave = () => setMessage('안녕히 가세요!');
   const onClickWelcome = () => setMessage('환영합니다!');
   const onClickUser = () => setMessage(user);
+  const onClickDelete = () => {
+    setUser(''), setMessage(''), setColor('black');
+  };
 
   return (
     <div>
@@ -22,6 +25,7 @@ const Mini1 = () => {
           onChange={(e) => setUser(e.target.value)}
         />
         <button onClick={onClickUser}>사용자</button>
+        <button onClick={onClickDelete}>삭제</button>
       </div>
       <h1 style={{ color }}>{message}</h1>
       <button style={{ color: 'red' }} onClick={() => setColor('red')}>
