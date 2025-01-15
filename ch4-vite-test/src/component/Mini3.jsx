@@ -6,9 +6,10 @@ const Mini3 = () => {
     password: '',
     email: '',
     passwordConfirm: '',
+    login: '',
   });
   const [submitted, setSubmitted] = useState(false);
-  const { username, password, passwordConfirm, email } = form;
+  const { username, password, passwordConfirm, email, login } = form;
 
   const onChange = (e) => {
     const nextForm = {
@@ -27,6 +28,10 @@ const Mini3 = () => {
       } else {
         alert('회원가입 성공');
         setSubmitted(true);
+        setForm((prevForm) => ({
+          ...prevForm,
+          login: `${username}님 메인화면으로 이동합니다!`,
+        }));
       }
     }
   };
@@ -37,6 +42,7 @@ const Mini3 = () => {
       password: '',
       email: '',
       passwordConfirm: '',
+      login: '',
     });
     setSubmitted(false);
   };
@@ -51,11 +57,9 @@ const Mini3 = () => {
     <div>
       <h1>미니 실습 3 - 회원가입</h1>
       {submitted && (
-        <>
-          <h2>username : {username}</h2>
-          <h2>email : {email}</h2>
-          <h2>password : {password}</h2>
-        </>
+        <div>
+          <h2>login:{login}</h2>
+        </div>
       )}
       <div>
         <input
@@ -65,6 +69,7 @@ const Mini3 = () => {
           value={username}
           onChange={onChange}
           onKeyPress={onKeyPress}
+          required
         />
       </div>
 
@@ -76,6 +81,7 @@ const Mini3 = () => {
           value={email}
           onChange={onChange}
           onKeyPress={onKeyPress}
+          required
         />
       </div>
       <div>
@@ -86,6 +92,7 @@ const Mini3 = () => {
           value={password}
           onChange={onChange}
           onKeyPress={onKeyPress}
+          required
         />
       </div>
       <div>
@@ -96,6 +103,7 @@ const Mini3 = () => {
           value={passwordConfirm}
           onChange={onChange}
           onKeyPress={onKeyPress}
+          required
         />
       </div>
 
