@@ -21,8 +21,10 @@ const Mini1 = () => {
       <div>
         <input
           type="text"
+          placeholder="메세지를 입력해주세요"
           value={user}
-          onChange={(event) => setUser(event.target.value)}
+          //   주의사항, 이벤트 핸들러에서 값을 함수 형식으로 작성
+          onChange={(e) => setUser(e.target.value)}
         />
         <button onClick={onClickUser}>사용자</button>
         <button onClick={onClickDelete}>삭제</button>
