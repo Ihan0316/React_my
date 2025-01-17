@@ -22,21 +22,18 @@ const Mini3 = () => {
     if (isNaN(parsedNumber)) {
       alert('유효한 숫자를 입력해주세요.');
       setNumber('');
-      inputEl.current.focus();
       return;
     }
 
     if (parsedNumber <= 0) {
       alert('값을 0 이상 입력해주세요.');
       setNumber('');
-      inputEl.current.focus();
       return;
     }
 
-    if (parsedNumber > 101) {
+    if (parsedNumber > 100) {
       alert('100 이하로 입력해주세요.');
       setNumber('');
-      inputEl.current.focus();
       return;
     }
 
@@ -50,6 +47,12 @@ const Mini3 = () => {
     setNumber('');
     inputEl.current.focus();
   }, [number, list]);
+
+  const onDelete = useCallback(() => {
+    setNumber('');
+    setList([]);
+    return;
+  }, []);
 
   const onKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -70,6 +73,7 @@ const Mini3 = () => {
         onKeyPress={onKeyPress}
       />
       <button onClick={onInsert}>추가</button>
+      <button onClick={onDelete}>삭제</button>
       <ul>
         {list.map((value, index) => (
           <li
