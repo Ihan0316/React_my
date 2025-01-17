@@ -6,13 +6,14 @@ import Average from './component/Average';
 import AverageUseCallback from './component/AverageUseCallback';
 import AverageUseRef from './component/AverageUseRef';
 import InfoCustomHooks from './component/InfoCustomHooks';
+import Mini3 from './component/Mini3';
 
 const App = () => {
   const [visible, setVisible] = useState(false);
 
   return (
     <>
-      <div>
+      {/* <div>
         <h1 className="react">ch8 hooks 함수형 컴포넌트 추가 기능 확인</h1>
         <button
           onClick={() => {
@@ -38,6 +39,9 @@ const App = () => {
       <hr />
       <h2>customHooks 사용해보기</h2>
       <InfoCustomHooks />
+      <hr /> */}
+      <h2>미니실습3</h2>
+      <Mini3 />
     </>
   );
 };
