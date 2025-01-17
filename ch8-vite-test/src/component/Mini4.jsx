@@ -7,7 +7,7 @@ const getAverage = (numbers) => {
   return sum / numbers.length;
 };
 
-const Mini3 = () => {
+const Mini4 = () => {
   const [list, setList] = useState([]);
   const [number, setNumber] = useState('');
   const inputEl = useRef(null);
@@ -40,12 +40,11 @@ const Mini3 = () => {
     if (avg <= parsedNumber) {
       const nextList = list.concat(parsedNumber);
       setList(nextList);
+      setNumber('');
+      inputEl.current.focus();
     } else {
       alert(parsedNumber + '는 평균' + avg + '보다 작습니다');
     }
-
-    setNumber('');
-    inputEl.current.focus();
   }, [number, list]);
 
   const onDelete = useCallback(() => {
@@ -94,4 +93,4 @@ const Mini3 = () => {
   );
 };
 
-export default Mini3;
+export default Mini4;
