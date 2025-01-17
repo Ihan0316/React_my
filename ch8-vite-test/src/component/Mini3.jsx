@@ -76,6 +76,7 @@ const Mini3 = () => {
             key={index}
             style={{
               color: index === list.length - 1 ? 'red' : 'black',
+              fontWeight: index === list.length - 1 ? 'bold' : '',
             }}
           >
             {value}
