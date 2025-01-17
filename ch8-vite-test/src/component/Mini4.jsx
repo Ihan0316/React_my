@@ -44,6 +44,7 @@ const Mini4 = () => {
       inputEl.current.focus();
     } else {
       alert(parsedNumber + '는 평균' + avg + '보다 작습니다');
+      return;
     }
   }, [number, list]);
 
