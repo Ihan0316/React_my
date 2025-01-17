@@ -9,7 +9,7 @@ const getAverage = (numbers) => {
   return sum / numbers.length;
 };
 
-const Average = () => {
+const AverageUseRef = () => {
   const [list, setList] = useState([]);
   const [number, setNumber] = useState('');
 
@@ -45,4 +45,4 @@ const Average = () => {
   );
 };
 
-export default Average;
+export default AverageUseRef;

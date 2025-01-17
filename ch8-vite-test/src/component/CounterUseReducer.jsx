@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import { useReducer } from 'react';
 
 // 준비물1, 리듀서 함수는,
 // 파라미터, state, a

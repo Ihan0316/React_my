@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import { useReducer } from 'react';
 
 // 준비물, 리듀서 함수, dispatch 호출시, 여기로 와서, action으로 분기 작업함.
 // 순서3, 예시) action = {name: "ㅇ"}
