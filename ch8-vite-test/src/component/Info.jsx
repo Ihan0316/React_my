@@ -19,7 +19,7 @@ const Info = () => {
       console.log(name);
     };
     //   }, [name, nickname]); // name과 nickname이 변경될 때마다 useEffect 실행
-  }, [name]); // 빈 배열로, 마운트시 한번만 호출
+  }, []); // 빈 배열로, 마운트시 한번만 호출
 
   const onChangeName = (e) => {
     setName(e.target.value);
