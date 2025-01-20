@@ -69,15 +69,13 @@
             background: black;
         }
 
-        
-    }
-    .box {
+        // 추가
         &:first-child {
             background: $indigo;
         }
-    
+        
         &:last-child {
             background: $violet;
         }
-}
+    }
 }
