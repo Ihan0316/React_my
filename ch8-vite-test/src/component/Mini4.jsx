@@ -12,13 +12,20 @@ const Mini4 = () => {
   const [number, setNumber] = useState('');
   const inputEl = useRef(null);
 
-  const onChange = useCallback((e) => {
-    setNumber(e.target.value);
-  }, []);
+  const onChange = (e) => {
+    const value = e.target.value;
+    if (!isNaN(value) && value.trim() !== '') {
+      console.log('숫자인 경우만, onChange');
+      setNumber(value);
+    }
+    // console.log("숫자가 아닌 경우만, onChange")
+    // setNumber(e.target.value);
+  };
 
   const onInsert = useCallback(() => {
     const parsedNumber = parseInt(number, 10);
 
+    // isNaN -> not a number
     if (isNaN(parsedNumber)) {
       alert('유효한 숫자를 입력해주세요.');
       setNumber('');
