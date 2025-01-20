@@ -26,14 +26,8 @@ const Mini4 = () => {
     const parsedNumber = parseInt(number, 10);
 
     // isNaN -> not a number
-    if (isNaN(parsedNumber) && parsedNumber < 0) {
+    if ((isNaN(parsedNumber) && parsedNumber < 0) || parsedNumber > 100) {
       alert('유효한 숫자를 입력해주세요.');
-      setNumber('');
-      return;
-    }
-
-    if (parsedNumber >= 100) {
-      alert('100 이상의 숫자는 입력할 수 없습니다.');
       setNumber('');
       return;
     }
@@ -78,7 +72,7 @@ const Mini4 = () => {
       <button onClick={onInsert}>추가</button>
       <button onClick={onDelete}>삭제</button>
       <ul>
-        {list.filter.map((value, index) => (
+        {list.map((value, index) => (
           <li
             key={index}
             style={{
