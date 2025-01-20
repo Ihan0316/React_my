@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import Mini6 from './components/Mini6';
 
 class App extends Component {
