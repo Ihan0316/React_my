@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-
-import CSSModule from './components/CSSModule';
-import SassComponent from './components/SassComponent';
-import StyledComponent from './components/styledComponent';
+import Mini6 from './components/Mini6';
 
 class App extends Component {
   render() {
@@ -10,7 +7,8 @@ class App extends Component {
       <div>
         {/* <SassComponent /> */}
         {/* <CSSModule /> */}
-        <StyledComponent />
+        {/* <StyledComponent /> */}
+        <Mini6 />
       </div>
     );
   }
