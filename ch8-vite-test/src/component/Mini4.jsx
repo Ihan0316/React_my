@@ -26,20 +26,14 @@ const Mini4 = () => {
     const parsedNumber = parseInt(number, 10);
 
     // isNaN -> not a number
-    if (isNaN(parsedNumber)) {
+    if (isNaN(parsedNumber) && parsedNumber < 0) {
       alert('유효한 숫자를 입력해주세요.');
       setNumber('');
       return;
     }
 
-    if (parsedNumber <= 0) {
-      alert('값을 0 이상 입력해주세요.');
-      setNumber('');
-      return;
-    }
-
-    if (parsedNumber > 100) {
-      alert('100 이하로 입력해주세요.');
+    if (parsedNumber >= 100) {
+      alert('100 이상의 숫자는 입력할 수 없습니다.');
       setNumber('');
       return;
     }
@@ -70,24 +64,26 @@ const Mini4 = () => {
 
   const avg = useMemo(() => getAverage(list), [list]);
 
+  const lastListIndex = list.length - 1;
+
   return (
     <div>
       <input
         value={number}
         onChange={onChange}
         ref={inputEl}
-        placeholder="숫자를 입력하세요"
+        placeholder="0~100 사이의 숫자를 입력하세요"
         onKeyPress={onKeyPress}
       />
       <button onClick={onInsert}>추가</button>
       <button onClick={onDelete}>삭제</button>
       <ul>
-        {list.map((value, index) => (
+        {list.filter.map((value, index) => (
           <li
             key={index}
             style={{
-              color: index === list.length - 1 ? 'red' : 'black',
-              fontWeight: index === list.length - 1 ? 'bold' : '',
+              color: index === lastListIndex ? 'red' : 'black',
+              fontWeight: index === lastListIndex ? 'bold' : '',
             }}
           >
             {value}
