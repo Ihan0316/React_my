@@ -19,4 +19,18 @@ export default defineConfig({
     },
   },
   //추가
+  //추가
+  css: {
+    preprocessorOptions: {
+      scss: {
+        silenceDeprecations: [
+          'mixed-decls',
+          'color-functions',
+          'global-builtin',
+          'import',
+        ],
+      },
+    },
+  },
+  //추가
 });
