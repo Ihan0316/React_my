@@ -14,13 +14,19 @@
   font-size: 2rem;
 }
 
+.inverted {
+  color: black;
+  background: white;
+  border: 1px solid black;
+}
+
 /* 글로벌 CSS를 작성하고 싶다면 */
 :global .something {
   font-weight: 800;
   color: aqua;
 }
 
-:global .mycss {
+:global .css {
   font-weight: 800;
   color: cornflowerblue;
 }
