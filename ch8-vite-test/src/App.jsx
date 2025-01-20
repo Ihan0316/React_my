@@ -13,7 +13,7 @@ const App = () => {
 
   return (
     <>
-      {/* <div>
+      <div>
         <h1 className="react">ch8 hooks 함수형 컴포넌트 추가 기능 확인</h1>
         <button
           onClick={() => {
@@ -39,7 +39,7 @@ const App = () => {
       <hr />
       <h2>customHooks 사용해보기</h2>
       <InfoCustomHooks />
-      <hr /> */}
+      <hr />
       <h2>미니실습4</h2>
       <Mini4 />
     </>

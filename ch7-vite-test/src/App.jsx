@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { Component } from 'react';
+import LifeCycleSample from './component/LifeCycleSample';
+import ErrorBoundary from './component/ErrorBoundary';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+// 랜덤 색상을 생성합니다.
+function getRandomColor() {
+  // Math.random() , 0 ~ 16777215 사이의 랜덤한 값을 호출
+  // toString(16), 16진법 표기, 0,1,~f
+  // padStart(6, '0') ,6자리로 표기하고, 값이 작거나 앞에 표기를 0으로 채우기.
+  // #000000 ~ #ffffff
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    '#' +
+    Math.floor(Math.random() * 16777215)
+      .toString(16)
+      .padStart(6, '0')
+  );
 }
 
-export default App
+class App extends Component {
+  state = {
+    color: '#000000',
+  };
+
+  handleClick = () => {
+    this.setState({
+      color: getRandomColor(),
+    });
+  };
+
+  render() {
+    return (
+      <div>
+        <button onClick={this.handleClick}>랜덤 색상</button>
+        {/* 예외 설정 컴포넌트를 감싸서 적용하기. */}
+        <ErrorBoundary>
+          <LifeCycleSample color={this.state.color} />
+        </ErrorBoundary>
+      </div>
+    );
+  }
+}
+
+export default App;
