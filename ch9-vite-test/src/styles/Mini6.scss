@@ -65,10 +65,6 @@
             }
         }
 
-        &:hover {
-            background: black;
-        }
-
         // 추가
         &:first-child {
             background: $indigo;
@@ -76,6 +72,10 @@
         
         &:last-child {
             background: $violet;
+        }
+        
+        &:hover {
+            background: black;
         }
     }
 }
