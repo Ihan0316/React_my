@@ -1,0 +1,36 @@
+// 변수 정의 (옵션: 재사용 가능한 값 정의)
+$font-size-large: 2rem;
+$padding-standard: 1rem;
+
+.wrapper {
+  background: black;
+  padding: $padding-standard;
+  color: white;
+  font-size: $font-size-large;
+}
+
+.wrapper2 {
+  background: gray;
+  padding: $padding-standard;
+  color: antiquewhite;
+  font-size: $font-size-large;
+}
+
+.inverted {
+  color: black;
+  background: white;
+  border: 1px solid black;
+}
+
+// 글로벌 스타일 (CSS Modules에서 :global 사용)
+:global {
+  .something {
+    font-weight: 800;
+    color: aqua;
+  }
+
+  .css {
+    font-weight: 800;
+    color: cornflowerblue;
+  }
+}

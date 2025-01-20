@@ -1,4 +1,4 @@
-import styles from '@styles/CSSModule.module.css';
+import styles from '@styles/CSSModule.module.scss';
 
 const CSSModule = () => {
   return (
