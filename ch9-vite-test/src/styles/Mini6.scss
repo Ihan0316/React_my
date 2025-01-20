@@ -35,6 +35,7 @@
             @include square(3);
         }
 
+        // 추가
         &.green {
             background: $green;
             @include square(4, 4px solid $blue);
@@ -55,6 +56,7 @@
             @include square(7);
         }
 
+        // 추가
         &.pink {
             background: $pink;
             @include square(8);
@@ -66,5 +68,16 @@
         &:hover {
             background: black;
         }
+
+        
     }
+    .box {
+        &:first-child {
+            background: $indigo;
+        }
+    
+        &:last-child {
+            background: $violet;
+        }
+}
 }

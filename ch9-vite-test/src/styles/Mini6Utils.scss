@@ -13,6 +13,7 @@ $violet: #7950f2;
 $pink: #ff6cbd;
 
 // 믹스인 만들기 (재사용되는 스타일 블록을 함수처럼 사용할 수 있음)
+// 추가
 @mixin square($size, $border: null) {
     $calculated: 32px * $size;
     width: $calculated;
