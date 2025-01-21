@@ -1,3 +1,6 @@
+// 파일 최상단에 추가
+/* eslint-disable react/prop-types */
+
 import { useState, useCallback } from 'react';
 import { MdAdd } from 'react-icons/md';
 import './TodoInsert.scss';

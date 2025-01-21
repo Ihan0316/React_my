@@ -1,3 +1,6 @@
+// 파일 최상단에 추가
+/* eslint-disable react/prop-types */
+
 import './TodoTemplate.scss';
 
 const TodoTemplate = ({ children }) => {
