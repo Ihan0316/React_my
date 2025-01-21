@@ -16,12 +16,7 @@
       svg {
         font-size: 1.5rem; // 아이콘 크기 설정
       }
-    }
-  
-    .text {
-      margin-left: 0.5rem; // 왼쪽 여백 설정
-      flex: 1; // 차지할 수 있는 영역 모두 차지
-  
+
       // 체크되었을 때의 스타일
       &.checked {
         svg {
@@ -31,6 +26,11 @@
         color: #adb5bd; // 체크된 텍스트 색상
         text-decoration: line-through; // 텍스트에 취소선 추가
       }
+    }
+  
+    .text {
+      margin-left: 0.5rem; // 왼쪽 여백 설정
+      flex: 1; // 차지할 수 있는 영역 모두 차지
     }
 
     .remove {

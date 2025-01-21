@@ -37,12 +37,24 @@ function App() {
     nextId.current += 1; // nextId를 1씩 증가
   }, []);
 
+  const onRemove = useCallback((id) => {
+    setTodos((todos) => todos.filter((todo) => todo.id !== id));
+  }, []);
+
+  const onToggle = useCallback((id) => {
+    setTodos((todos) =>
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, checked: !todo.checked } : todo,
+      ),
+    );
+  }, []);
+
   return (
     <>
       <h2 className="react">ch10 일정 관리 애플리케이션 예제</h2>
       <TodoTemplate>
         <TodoInsert onInsert={onInsert} />
-        <TodoList todos={todos} />
+        <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} />
       </TodoTemplate>
     </>
   );
