@@ -1,4 +1,6 @@
 import styled, { css } from 'styled-components';
+//추가
+import { NavLink } from 'react-router-dom';
 
 const categories = [
   { name: 'all', text: '전체보기' },
@@ -33,60 +35,100 @@ const CategoriesBlock = styled.div`
   }
 `;
 
-const Category = styled.div`
-  // 텍스트 크기를 1.125rem(18px)로 설정
+// const Category = styled.div`
+//   // 텍스트 크기를 1.125rem(18px)로 설정
+//   font-size: 1.125rem;
+
+//   // 커서를 포인터(손 모양)로 변경하여 클릭 가능하다는 표시
+//   cursor: pointer;
+
+//   // 텍스트가 줄바꿈 없이 한 줄로 표시되도록 설정
+//   white-space: pre;
+
+//   // 텍스트에 밑줄 제거
+//   text-decoration: none;
+
+//   // 기본 텍스트 색상을 상속받도록 설정
+//   color: inherit;
+
+//   // 아래쪽에 0.25rem(4px) 간격 추가
+//   padding-bottom: 0.25rem;
+
+//   // hover 상태에서 텍스트 색상을 #495057로 변경
+//   &:hover {
+//     color: #495057;
+//   }
+
+//   //추가
+//   ${(props) =>
+//     props.active &&
+//     css`
+//       font-weight: 600;
+//       border-bottom: 2px solid #22b8cf;
+//       color: #22b8cf;
+
+//       &:hover {
+//         color: #3bc9db;
+//       }
+//     `}
+
+//   // 동일한 요소가 연속으로 배치될 때, 각 요소 간에 왼쪽 간격 1rem 추가
+//   & + & {
+//     margin-left: 1rem;
+//   }
+// `;
+
+// //추가
+// const Categories = ({ onSelect, category }) => {
+//   return (
+//     <CategoriesBlock>
+//       {categories.map((c) => (
+//         <Category
+//           key={c.name}
+//           active={category === c.name}
+//           //   추가
+//           onClick={() => onSelect(c.name)}
+//         >
+//           {c.text}
+//         </Category>
+//       ))}
+//     </CategoriesBlock>
+//   );
+// };
+
+// 교체
+const Category = styled(NavLink)`
   font-size: 1.125rem;
-
-  // 커서를 포인터(손 모양)로 변경하여 클릭 가능하다는 표시
   cursor: pointer;
-
-  // 텍스트가 줄바꿈 없이 한 줄로 표시되도록 설정
   white-space: pre;
-
-  // 텍스트에 밑줄 제거
   text-decoration: none;
-
-  // 기본 텍스트 색상을 상속받도록 설정
   color: inherit;
-
-  // 아래쪽에 0.25rem(4px) 간격 추가
   padding-bottom: 0.25rem;
 
-  // hover 상태에서 텍스트 색상을 #495057로 변경
   &:hover {
     color: #495057;
   }
 
-  //추가
-  ${(props) =>
-    props.active &&
-    css`
-      font-weight: 600;
-      border-bottom: 2px solid #22b8cf;
-      color: #22b8cf;
+  &.active {
+    font-weight: 600;
+    border-bottom: 2px solid #22b8cf;
+    color: #22b8cf;
 
-      &:hover {
-        color: #3bc9db;
-      }
-    `}
+    &:hover {
+      color: #3bc9db;
+    }
+  }
 
-  // 동일한 요소가 연속으로 배치될 때, 각 요소 간에 왼쪽 간격 1rem 추가
   & + & {
     margin-left: 1rem;
   }
 `;
 
-//추가
-const Categories = ({ onSelect, category }) => {
+const Categories = () => {
   return (
     <CategoriesBlock>
       {categories.map((c) => (
-        <Category
-          key={c.name}
-          active={category === c.name}
-          //   추가
-          onClick={() => onSelect(c.name)}
-        >
+        <Category key={c.name} to={c.name === 'all' ? '/' : `/${c.name}`}>
           {c.text}
         </Category>
       ))}
