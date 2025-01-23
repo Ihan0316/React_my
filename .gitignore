@@ -4,6 +4,9 @@
 #build 파일도 제외
 **/build
 
+# 환경 변수 파일
+.env
+
 # Logs
 logs
 *.log
