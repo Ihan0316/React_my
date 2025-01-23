@@ -16,12 +16,13 @@ const NewsListBlock = styled.div`
   }
 `;
 
-const NewsList = () => {
-  //추가
+const NewsList = ({ category }) => {
   const [articles, setArticles] = useState(null);
   const [loading, setLoading] = useState(false);
-  const apikey = import.meta.env.VITE_API_KEY;
-  //추가
+
+  // 환경 변수에서 API 키를 가져옴
+  const apiKey = import.meta.env.VITE_API_KEY;
+
   useEffect(() => {
     // async를 사용하는 함수 선언
     const fetchData = async () => {
@@ -31,22 +32,20 @@ const NewsList = () => {
           `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`,
         );
         setArticles(response.data.articles);
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        console.error('뉴스 데이터를 가져오는 중 에러 발생:', error);
       }
       setLoading(false);
     };
 
     fetchData();
-  }, []);
+  }, [apiKey]);
 
-  //추가
   // 대기 중일 때
   if (loading) {
     return <NewsListBlock>대기 중...</NewsListBlock>;
   }
 
-  //추가
   // 아직 articles 값이 설정되지 않았을 때
   if (!articles) {
     return null;
@@ -55,7 +54,6 @@ const NewsList = () => {
   // articles 값이 유효할 때
   return (
     <NewsListBlock>
-      {/* 추가 */}
       {articles.map((article) => (
         <NewsItem key={article.url} article={article} />
       ))}

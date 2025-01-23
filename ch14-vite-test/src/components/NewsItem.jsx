@@ -7,7 +7,7 @@ const NewsItemBlock = styled.div`
     img {
       display: block;
       width: 160px;
-      height: 100px;
+      height: 170px;
       object-fit: cover;
     }
   }
@@ -33,7 +33,7 @@ const NewsItemBlock = styled.div`
 
 // 부모 App -> NewsList -> NewsItem
 const NewsItem = ({ article }) => {
-  const { title, description, url, urlToImage } = article;
+  const { title, description, url, urlToImage, author, publishedAt } = article;
 
   return (
     <NewsItemBlock>
@@ -51,6 +51,8 @@ const NewsItem = ({ article }) => {
           </a>
         </h2>
         <p>{description}</p>
+        <p>저자 :{author}</p>
+        <p>발행일 :{publishedAt}</p>
       </div>
     </NewsItemBlock>
   );

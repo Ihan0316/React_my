@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import { useState, useCallback } from 'react';
 import axios from 'axios';
 import './App.css';
 import NewsList from './components/NewsList';
+import Categories from './components/Categories';
 
 const App = () => {
   const [data, setData] = useState(null);
+  const [category, setCategory] = useState('all');
+  const onSelect = useCallback((category) => setCategory(category), []);
 
   const onClick = () => {
     axios
@@ -32,6 +35,7 @@ const App = () => {
           readOnly={true}
         />
       )} */}
+      <Categories category={category} onSelect={onSelect} />
       <NewsList />
     </div>
   );
