@@ -62,9 +62,11 @@ const NewsList = ({ category }) => {
   //추가
 
   const sendData = () => {
+    // 환경 변수에서 API 키를 가져옴
+    const apiKey = import.meta.env.VITE_API_KEY;
     const query = category === 'all' ? '' : `&category=${category}`;
     return axios.get(
-      `https://newsapi.org/v2/top-headlines?country=us${query}&apiKey=0a8c4202385d4ec1bb93b7e277b3c51f`,
+      `https://newsapi.org/v2/top-headlines?country=us${query}&apiKey=${apiKey}`,
     );
   };
 
