@@ -124,11 +124,18 @@ const Category = styled(NavLink)`
   }
 `;
 
+// const Categories = ({ onSelect, category }) => {
 const Categories = () => {
   return (
     <CategoriesBlock>
       {categories.map((c) => (
-        <Category key={c.name} to={c.name === 'all' ? '/' : `/${c.name}`}>
+        <Category
+          key={c.name}
+          // active={category === c.name}
+          //   추가
+          // onClick={() => onSelect(c.name)}
+          to={c.name === 'all' ? '/' : `/${c.name}`}
+        >
           {c.text}
         </Category>
       ))}
