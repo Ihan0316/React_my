@@ -36,7 +36,7 @@ const App = () => {
         />
       )} */}
       <Categories category={category} onSelect={onSelect} />
-      <NewsList />
+      <NewsList category={category} />
     </div>
   );
 };

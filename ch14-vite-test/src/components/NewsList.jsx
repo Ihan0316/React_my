@@ -28,8 +28,9 @@ const NewsList = ({ category }) => {
     const fetchData = async () => {
       setLoading(true);
       try {
+        const query = category === 'all' ? '' : `&category=${category}`;
         const response = await axios.get(
-          `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`,
+          `https://newsapi.org/v2/top-headlines?country=us${query}&apiKey=${apiKey}`,
         );
         setArticles(response.data.articles);
       } catch (error) {
@@ -39,7 +40,8 @@ const NewsList = ({ category }) => {
     };
 
     fetchData();
-  }, [apiKey]);
+    // category 변경시 useeffect 변경하기
+  }, [apiKey, category]);
 
   // 대기 중일 때
   if (loading) {
