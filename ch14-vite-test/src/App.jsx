@@ -1,14 +1,33 @@
+import { useState } from 'react';
+import axios from 'axios';
 
-import './App.css'
+const App = () => {
+  const [data, setData] = useState(null);
 
-function App() {
-
+  const onClick = () => {
+    axios
+      .get(
+        'https://newsapi.org/v2/top-headlines?country=us&apiKey=a7387d99fe71491db9a957fc416280e9',
+      )
+      .then((response) => {
+        setData(response.data);
+      });
+  };
 
   return (
-    <>
-      <h1 className='react'>ch14 API 연동해서 뷰어 만들기</h1>
-    </>
-  )
-}
+    <div>
+      <div>
+        <button onClick={onClick}>불러오기</button>
+      </div>
+      {data && (
+        <textarea
+          rows={7}
+          value={JSON.stringify(data, null, 2)}
+          readOnly={true}
+        />
+      )}
+    </div>
+  );
+};
 
-export default App
+export default App;
