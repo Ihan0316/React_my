@@ -6,7 +6,7 @@ import { Route, Routes } from 'react-router-dom';
 const App = () => {
   return (
     <div>
-      <h1 className="react">JIH test중</h1>
+      <h1 className="react">JIH test</h1>
 
       <Routes>
         <Route path="/" element={<NewsPage />} />
