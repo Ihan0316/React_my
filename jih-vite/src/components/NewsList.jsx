@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import NewsItem from './NewsItem';
-import { useState, useEffect } from 'react';
 import axios from 'axios';
 import usePromise from '../lib/usePromise';
-import PdItem from './PdItem';
-import PdItemBusan from './PdItemBusan';
+import Weather from './Weather';
+import React, { useState, useEffect } from 'react';
 
 const NewsListBlock = styled.div`
   box-sizing: border-box;
@@ -20,27 +19,60 @@ const NewsListBlock = styled.div`
 `;
 
 const NewsList = ({ category }) => {
+  const [busanWeather, setBusanWeather] = useState(null);
+  const [seoulWeather, setSeoulWeather] = useState(null);
+  const [laWeather, setLaWeather] = useState(null);
+
+  useEffect(() => {
+    const fetchWeatherData = async () => {
+      if (category === 'weather') {
+        try {
+          const busanResponse = await axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?lat=35.1796&lon=129.0756&units=metric&appid=${
+              import.meta.env.VITE_API_KEY_OPENWEATHERMAP
+            }`,
+          );
+          setBusanWeather(busanResponse.data);
+
+          const seoulResponse = await axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?lat=37.5665&lon=126.9780&units=metric&appid=${
+              import.meta.env.VITE_API_KEY_OPENWEATHERMAP
+            }`,
+          );
+          setSeoulWeather(seoulResponse.data);
+
+          const laResponse = await axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?lat=34.0522&lon=-118.2437&units=metric&appid=${
+              import.meta.env.VITE_API_KEY_OPENWEATHERMAP
+            }`,
+          );
+          setLaWeather(laResponse.data);
+        } catch (error) {
+          console.error('Weather API Error:', error);
+        }
+      }
+    };
+
+    fetchWeatherData();
+  }, [category]);
+
   const sendData = () => {
     const query = category === 'all' ? '' : `&category=${category}`;
 
-    if (category === 'cctvWeather') {
-      return axios.get(
-        `${import.meta.env.VITE_CCTV_WEATHER_API}?serviceKey=${
-          import.meta.env.VITE_SERVICE_KEY
-        }&numOfRows=10&pageNo=1&eqmtId=0500C00001&hhCode=00&dataType=json`,
-      );
-    } else if (category === 'busanAtt') {
-      return axios.get(
-        `${import.meta.env.VITE_BUSAN_ATT_API}?serviceKey=${
-          import.meta.env.VITE_SERVICE_KEY
-        }&numOfRows=10&pageNo=1&resultType=json`,
-      );
+    if (category === 'weather') {
+      return null; // 날씨 데이터는 useEffect에서 처리
     } else {
-      return axios.get(
-        `https://newsapi.org/v2/top-headlines?country=us${query}&apiKey=${
-          import.meta.env.VITE_NEWS_API_KEY
-        }`,
-      );
+      return axios
+        .get(
+          `https://newsapi.org/v2/top-headlines?country=us${query}&apiKey=${
+            import.meta.env.VITE_NEWS_API_KEY
+          }`,
+        )
+        .then((response) => response.data)
+        .catch((error) => {
+          console.error('News API Error:', error);
+          throw error;
+        });
     }
   };
 
@@ -50,28 +82,36 @@ const NewsList = ({ category }) => {
     return <NewsListBlock>대기 중...</NewsListBlock>;
   }
 
-  if (!resolved) {
+  if (error) {
+    return (
+      <NewsListBlock>에러 발생! 데이터를 불러오지 못했습니다.</NewsListBlock>
+    );
+  }
+
+  if (!resolved && category !== 'weather') {
     return null;
   }
 
-  if (error) {
-    return <NewsListBlock>에러 발생!</NewsListBlock>;
-  }
-
   const data =
-    category === 'cctvWeather'
-      ? resolved.data.response.body.items.item || []
+    category === 'weather'
+      ? null
       : category === 'busanAtt'
-      ? resolved.data.getAttractionKr.item || []
-      : resolved.data.articles || [];
+      ? resolved.getAttractionKr?.item || []
+      : resolved.articles || [];
 
   return (
     <NewsListBlock>
-      {category === 'cctvWeather'
-        ? data.map((data, index) => <PdItem key={index} article={data} />)
-        : category === 'busanAtt'
-        ? data.map((data, index) => <PdItemBusan key={index} article={data} />)
-        : data.map((data) => <NewsItem key={data.url} article={data} />)}
+      {category === 'weather' ? (
+        <Weather
+          busanWeather={busanWeather}
+          seoulWeather={seoulWeather}
+          laWeather={laWeather}
+        />
+      ) : category === 'busanAtt' ? (
+        data.map((item, index) => <Weather key={index} article={item} />)
+      ) : (
+        data.map((item) => <NewsItem key={item.url} article={item} />)
+      )}
     </NewsListBlock>
   );
 };

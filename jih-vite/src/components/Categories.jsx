@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { NavLink, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const categories = [
   { name: 'all', text: '전체보기' },
@@ -10,8 +9,7 @@ const categories = [
   { name: 'science', text: '과학' },
   { name: 'sports', text: '스포츠' },
   { name: 'technology', text: '기술' },
-  { name: 'cctvWeather', text: 'cctv 날씨 샘플' },
-  { name: 'busanAtt', text: '부산 명소' },
+  { name: 'weather', text: '날씨 샘플' },
 ];
 
 const CategoriesBlock = styled.div`
@@ -58,28 +56,16 @@ const Category = styled(NavLink)`
   }
 `;
 
-const Categories = ({ onCategoryClick }) => {
-  const location = useLocation();
-  const [forceUpdate, setForceUpdate] = useState(0);
-
-  const handleClick = (category) => {
-    if (category === 'cctvWeather' || category === 'busanAtt') {
-      setForceUpdate((prev) => prev + 1); // 상태 변경하여 리렌더링 유도
-      if (onCategoryClick) onCategoryClick(); // API 호출 트리거
-    }
-  };
-
+const Categories = () => {
   return (
-    <CategoriesBlock key={forceUpdate}>
-      {' '}
-      {/* 변경될 때마다 리렌더링 */}
-      {categories.map((c) => (
+    <CategoriesBlock>
+      {categories.map((category) => (
         <Category
-          key={c.name}
-          to={c.name === 'all' ? '/' : `/${c.name}`}
-          onClick={() => handleClick(c.name)}
+          key={category.name}
+          to={category.name === 'all' ? '/' : `/${category.name}`}
+          aria-current="page"
         >
-          {c.text}
+          {category.text}
         </Category>
       ))}
     </CategoriesBlock>
