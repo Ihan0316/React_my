@@ -5,6 +5,21 @@ import usePromise from '../lib/usePromise';
 import Weather from './Weather';
 import React, { useState, useEffect } from 'react';
 
+// 공통적인 날씨 API 요청 함수
+const fetchWeatherData = async (lat, lon) => {
+  try {
+    const response = await axios.get(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${
+        import.meta.env.VITE_API_KEY_OPENWEATHER
+      }`,
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Weather API Error:', error);
+    throw error;
+  }
+};
+
 const NewsListBlock = styled.div`
   box-sizing: border-box;
   padding-bottom: 3rem;
@@ -22,45 +37,37 @@ const NewsList = ({ category }) => {
   const [busanWeather, setBusanWeather] = useState(null);
   const [seoulWeather, setSeoulWeather] = useState(null);
   const [laWeather, setLaWeather] = useState(null);
+  const [daeguWeather, setDaeguWeather] = useState(null);
 
   useEffect(() => {
-    const fetchWeatherData = async () => {
+    const fetchWeather = async () => {
       if (category === 'weather') {
         try {
-          const busanResponse = await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?lat=35.1796&lon=129.0756&units=metric&appid=${
-              import.meta.env.VITE_API_KEY_OPENWEATHERMAP
-            }`,
-          );
-          setBusanWeather(busanResponse.data);
+          const busanData = await fetchWeatherData(35.1796, 129.0756);
+          setBusanWeather(busanData);
 
-          const seoulResponse = await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?lat=37.5665&lon=126.9780&units=metric&appid=${
-              import.meta.env.VITE_API_KEY_OPENWEATHERMAP
-            }`,
-          );
-          setSeoulWeather(seoulResponse.data);
+          const seoulData = await fetchWeatherData(37.5665, 126.978);
+          setSeoulWeather(seoulData);
 
-          const laResponse = await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?lat=34.0522&lon=-118.2437&units=metric&appid=${
-              import.meta.env.VITE_API_KEY_OPENWEATHERMAP
-            }`,
-          );
-          setLaWeather(laResponse.data);
+          const daeguData = await fetchWeatherData(35.8714, 128.6014);
+          setDaeguWeather(daeguData);
+
+          const laData = await fetchWeatherData(34.0522, -118.2437);
+          setLaWeather(laData);
         } catch (error) {
           console.error('Weather API Error:', error);
         }
       }
     };
 
-    fetchWeatherData();
+    fetchWeather();
   }, [category]);
 
   const sendData = () => {
     const query = category === 'all' ? '' : `&category=${category}`;
 
     if (category === 'weather') {
-      return null; // 날씨 데이터는 useEffect에서 처리
+      return null;
     } else {
       return axios
         .get(
@@ -105,6 +112,7 @@ const NewsList = ({ category }) => {
         <Weather
           busanWeather={busanWeather}
           seoulWeather={seoulWeather}
+          daeguWeather={daeguWeather}
           laWeather={laWeather}
         />
       ) : category === 'busanAtt' ? (
