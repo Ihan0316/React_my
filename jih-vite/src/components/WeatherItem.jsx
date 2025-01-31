@@ -1,3 +1,4 @@
+// WeatherItem.js
 import styled from 'styled-components';
 
 const WeatherItemBlock = styled.div`
@@ -93,6 +94,7 @@ const weatherDescriptionMap = {
   'scattered clouds': '드문드문 구름이 낀 하늘',
   'broken clouds': '구름이 거의 없는 하늘',
   'overcast clouds': '구름으로 뒤덮인 흐린 하늘',
+  tornado: '토네이도',
   'tropical storm': '태풍',
   hurricane: '허리케인',
   cold: '한랭',
@@ -110,23 +112,16 @@ const weatherDescriptionMap = {
   'severe gale': '심각한 돌풍',
   storm: '폭풍',
   'violent storm': '강한 폭풍',
+  hurricane: '허리케인',
 };
 
-const WeatherItem = ({ weather }) => {
-  if (!weather) return null;
-
-  const { name, main, weather: weatherData, dt } = weather;
-  const { temp, humidity } = main;
+const WeatherItem = ({ city, weather }) => {
+  const { main, weather: weatherData, dt } = weather;
   const description = weatherData[0].description;
-  const iconUrl = `https://openweathermap.org/img/wn/${weatherData[0].icon}.png`;
-
-  // description을 한글로 변환
   const koreanDescription = weatherDescriptionMap[description] || description;
+  const iconUrl = `https://openweathermap.org/img/wn/${weatherData[0].icon}.png`;
+  const formattedTemp = main.temp.toFixed(1);
 
-  // 온도를 소수점 1자리까지 반올림
-  const formattedTemp = temp.toFixed(1);
-
-  // Unix 타임스탬프 (dt)를 사람이 읽을 수 있는 형식으로 변환
   const updateTime = new Date(dt * 1000);
   const formattedUpdateTime = `${updateTime.getFullYear()}-${(
     updateTime.getMonth() + 1
@@ -146,9 +141,9 @@ const WeatherItem = ({ weather }) => {
         <img src={iconUrl} alt={koreanDescription} />
       </div>
       <div className="contents">
-        <h2>{name} 날씨</h2>
+        <h2>{city} 날씨</h2>
         <p>온도: {formattedTemp}°C</p>
-        <p>습도: {humidity}%</p>
+        <p>습도: {main.humidity}%</p>
         <p>날씨: {koreanDescription}</p>
         <p className="update-time">업데이트 시간: {formattedUpdateTime}</p>
       </div>
@@ -156,15 +151,4 @@ const WeatherItem = ({ weather }) => {
   );
 };
 
-const Weather = ({ busanWeather, seoulWeather, daeguWeather, laWeather }) => {
-  return (
-    <div>
-      <WeatherItem weather={busanWeather} />
-      <WeatherItem weather={seoulWeather} />
-      <WeatherItem weather={daeguWeather} />
-      <WeatherItem weather={laWeather} />
-    </div>
-  );
-};
-
-export default Weather;
+export default WeatherItem;

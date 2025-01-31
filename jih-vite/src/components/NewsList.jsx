@@ -1,24 +1,8 @@
 import styled from 'styled-components';
 import NewsItem from './NewsItem';
-import axios from 'axios';
+import WeatherItem from './WeatherItem';
 import usePromise from '../lib/usePromise';
-import Weather from './Weather';
-import React, { useState, useEffect } from 'react';
-
-// 공통적인 날씨 API 요청 함수
-const fetchWeatherData = async (lat, lon) => {
-  try {
-    const response = await axios.get(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${
-        import.meta.env.VITE_API_KEY_OPENWEATHER
-      }`,
-    );
-    return response.data;
-  } catch (error) {
-    console.error('Weather API Error:', error);
-    throw error;
-  }
-};
+import { fetchNewsData, fetchWeatherData } from '../lib/api';
 
 const NewsListBlock = styled.div`
   box-sizing: border-box;
@@ -34,54 +18,22 @@ const NewsListBlock = styled.div`
 `;
 
 const NewsList = ({ category }) => {
-  const [busanWeather, setBusanWeather] = useState(null);
-  const [seoulWeather, setSeoulWeather] = useState(null);
-  const [laWeather, setLaWeather] = useState(null);
-  const [daeguWeather, setDaeguWeather] = useState(null);
-
-  useEffect(() => {
-    const fetchWeather = async () => {
-      if (category === 'weather') {
-        try {
-          const busanData = await fetchWeatherData(35.1796, 129.0756);
-          setBusanWeather(busanData);
-
-          const seoulData = await fetchWeatherData(37.5665, 126.978);
-          setSeoulWeather(seoulData);
-
-          const daeguData = await fetchWeatherData(35.8714, 128.6014);
-          setDaeguWeather(daeguData);
-
-          const laData = await fetchWeatherData(34.0522, -118.2437);
-          setLaWeather(laData);
-        } catch (error) {
-          console.error('Weather API Error:', error);
-        }
-      }
-    };
-
-    fetchWeather();
-  }, [category]);
-
-  const sendData = () => {
-    const query = category === 'all' ? '' : `&category=${category}`;
-
-    if (category === 'weather') {
-      return null;
-    } else {
-      return axios
-        .get(
-          `https://newsapi.org/v2/top-headlines?country=us${query}&apiKey=${
-            import.meta.env.VITE_NEWS_API_KEY
-          }`,
-        )
-        .then((response) => response.data)
-        .catch((error) => {
-          console.error('News API Error:', error);
-          throw error;
-        });
-    }
+  const fetchWeather = async () => {
+    const cities = [
+      { name: '부산', lat: 35.1796, lon: 129.0756 },
+      { name: '서울', lat: 37.5665, lon: 126.978 },
+      { name: '대구', lat: 35.8714, lon: 128.6014 },
+      { name: 'LA', lat: 34.0522, lon: -118.2437 },
+    ];
+    return Promise.all(
+      cities.map(({ name, lat, lon }) =>
+        fetchWeatherData(lat, lon).then((data) => ({ name, weather: data })),
+      ),
+    );
   };
+
+  const sendData =
+    category === 'weather' ? fetchWeather : () => fetchNewsData(category);
 
   const [loading, resolved, error] = usePromise(sendData, [category]);
 
@@ -95,31 +47,29 @@ const NewsList = ({ category }) => {
     );
   }
 
-  if (!resolved && category !== 'weather') {
+  if (!resolved) {
     return null;
   }
 
+  // category가 'weather'일 때는 배열이고, 그렇지 않으면 뉴스 데이터 처리
   const data =
     category === 'weather'
-      ? null
+      ? Array.isArray(resolved)
+        ? resolved
+        : [] // weather가 아닌 다른 형태의 데이터가 올 경우 빈 배열 반환
       : category === 'busanAtt'
       ? resolved.getAttractionKr?.item || []
-      : resolved.articles || [];
+      : Array.isArray(resolved.articles)
+      ? resolved.articles
+      : []; // 기사 배열이 아닐 경우 빈 배열
 
   return (
     <NewsListBlock>
-      {category === 'weather' ? (
-        <Weather
-          busanWeather={busanWeather}
-          seoulWeather={seoulWeather}
-          daeguWeather={daeguWeather}
-          laWeather={laWeather}
-        />
-      ) : category === 'busanAtt' ? (
-        data.map((item, index) => <Weather key={index} article={item} />)
-      ) : (
-        data.map((item) => <NewsItem key={item.url} article={item} />)
-      )}
+      {category === 'weather'
+        ? data.map(({ name, weather }) => (
+            <WeatherItem key={name} city={name} weather={weather} />
+          ))
+        : data.map((item) => <NewsItem key={item.url} article={item} />)}
     </NewsListBlock>
   );
 };
