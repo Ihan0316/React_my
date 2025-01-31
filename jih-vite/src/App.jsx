@@ -1,5 +1,4 @@
 import './App.css';
-import BusanWeather from './components/WeatherItem';
 import NewsPage from './pages/NewsPage';
 import { Route, Routes } from 'react-router-dom';
 
