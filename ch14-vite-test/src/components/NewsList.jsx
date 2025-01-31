@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import NewsItem from './NewsItem';
-import usePromise from '../lib/usePromise';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import usePromise from '../lib/usePromise';
+import PdItem from './PdItem';
+import PdItemBusan from './PdItemBusan';
 
 const NewsListBlock = styled.div`
   box-sizing: border-box;
@@ -18,86 +20,93 @@ const NewsListBlock = styled.div`
 `;
 
 const NewsList = ({ category }) => {
-  // 한파일 내에 로직이 포함된 경우 방법1
-  // const [articles, setArticles] = useState(null);
-  // const [loading, setLoading] = useState(false);
 
-  // // 환경 변수에서 API 키를 가져옴
-  // const apiKey = import.meta.env.VITE_API_KEY;
+    const sendData = () => {
+        const query = category === 'all' ? '' : `&category=${category}`;
+        console.log(`category 1: ${category}`)
+        if (category === 'cctvWeather') {
+            console.log(`category 2: ${category}`)
+            return axios.get(
+                `http://apis.data.go.kr/1360000/RoadWthrInfoService/getCctvStnRoadWthr?serviceKey=ALRX9GpugtvHxcIO%2FiPg1vXIQKi0E6Kk1ns4imt8BLTgdvSlH%2FAKv%2BA1GcGUQgzuzqM3Uv1ZGgpG5erOTDcYRQ%3D%3D&numOfRows=10&pageNo=1&eqmtId=0500C00001&hhCode=00&dataType=json`
+            );
+        }
+        else if (category === 'busanAtt') {
+            console.log(`category 2: ${category}`)
+            return axios.get(
+                `http://apis.data.go.kr/6260000/AttractionService/getAttractionKr?serviceKey=ALRX9GpugtvHxcIO%2FiPg1vXIQKi0E6Kk1ns4imt8BLTgdvSlH%2FAKv%2BA1GcGUQgzuzqM3Uv1ZGgpG5erOTDcYRQ%3D%3D&numOfRows=10&pageNo=1&resultType=json`
+            );
+        }
+        else {
+            return axios.get(
+                `https://newsapi.org/v2/top-headlines?country=us${query}&apiKey=0a8c4202385d4ec1bb93b7e277b3c51f`
+                // `https://newsapi.org/v2/top-headlines?country=us&category=health&apiKey=0a8c4202385d4ec1bb93b7e277b3c51f`
+            );
+        }
 
-  // useEffect(() => {
-  //   // async를 사용하는 함수 선언
-  //   const fetchData = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const query = category === 'all' ? '' : `&category=${category}`;
-  //       const response = await axios.get(
-  //         `https://newsapi.org/v2/top-headlines?country=us${query}&apiKey=${apiKey}`,
-  //       );
-  //       setArticles(response.data.articles);
-  //     } catch (error) {
-  //       console.error('뉴스 데이터를 가져오는 중 에러 발생:', error);
-  //     }
-  //     setLoading(false);
-  //   };
+        // return axios.get(
+        //     `https://newsapi.org/v2/top-headlines?country=us${query}&apiKey=0a8c4202385d4ec1bb93b7e277b3c51f`
+        // );
+    }
+    //추가
+    const [loading, resolved, error] = usePromise(sendData, [category]);
 
-  //   fetchData();
-  //   // category 변경시 useEffect 변경하기
-  // }, [apiKey, category]);
+    //추가
+    // 대기 중일 때
+    if (loading) {
+        return <NewsListBlock>대기 중...</NewsListBlock>;
+    }
 
-  // // 대기 중일 때
-  // if (loading) {
-  //   return <NewsListBlock>대기 중...</NewsListBlock>;
-  // }
+    if (!resolved) {
+        // 데이터가 받아 온게 없으면 , 화면에 그리지 않는다.
+        return null;
+    }
+    //추가, 커스텀 훅스
+    // 에러가 발생했을 때
+    if (error) {
+        return <NewsListBlock>에러 발생!</NewsListBlock>;
+    }
 
-  // // 아직 articles 값이 설정되지 않았을 때
-  // if (!articles) {
-  //   return null;
-  // }
+    // const data = category === 'cctvWeather'
+    //     ? resolved.data.response.body.items.item // category가 cctvWeather인 경우 item 사용
+    //     : resolved.data.articles;
+    const data = category === 'cctvWeather'
+        ? resolved.data.response.body.items.item || []
+        : category === 'busanAtt'
+            ? resolved.data.getAttractionKr.item || []
+            : resolved.data.articles || [];
 
-  // articles 값이 유효할 때
 
-  // 방법2, 파일 분리해서 작업, 커스텀 훅스 이용
 
-  //추가
+    // articles 값이 유효할 때
+    return (
+        <NewsListBlock>
+            {/* 추가 */}
+            {/* articles = [{기사1},{기사2},{기사3}...] */}
+            {/* {
+                category === 'cctvWeather'
+                    ? data.map((data, index) => (
+                        <PdItem key={index} article={data} />
+                    ))
+                    : data.map((data) => (
+                        <NewsItem key={data.url} article={data} />
+                    ))
+            } */}
+            {category === 'cctvWeather' ? (
+                data.map((data, index) => (
+                    <PdItem key={index} article={data} />
+                ))
+            ) : category === 'busanAtt' ? (
+                data.map((data, index) => (
+                    <PdItemBusan key={index} article={data} />
+                ))
+            ) : (
+                data.map((data) => (
+                    <NewsItem key={data.url} article={data} />
+                ))
+            )}
 
-  const sendData = () => {
-    // 환경 변수에서 API 키를 가져옴
-    const apiKey = import.meta.env.VITE_API_KEY;
-    const query = category === 'all' ? '' : `&category=${category}`;
-    return axios.get(
-      `https://newsapi.org/v2/top-headlines?country=us${query}&apiKey=${apiKey}`,
+        </NewsListBlock>
     );
-  };
-
-  const [loading, resolved, error] = usePromise(sendData, [category]);
-
-  // 대기 중일 때
-  if (loading) {
-    return <NewsListBlock>대기 중...</NewsListBlock>;
-  }
-
-  // 아직 resolved 값이 설정되지 않았을 때
-  if (!resolved) {
-    return null;
-  }
-
-  //추가
-  // 에러가 발생했을 때
-  if (error) {
-    return <NewsListBlock>에러 발생!</NewsListBlock>;
-  }
-
-  // 추가
-  const { articles } = resolved.data;
-
-  return (
-    <NewsListBlock>
-      {articles.map((article) => (
-        <NewsItem key={article.url} article={article} />
-      ))}
-    </NewsListBlock>
-  );
 };
 
 export default NewsList;

@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-//추가
 import { NavLink } from 'react-router-dom';
 
 const categories = [
@@ -10,11 +9,16 @@ const categories = [
   { name: 'science', text: '과학' },
   { name: 'sports', text: '스포츠' },
   { name: 'technology', text: '기술' },
+  { name: 'cctvWeather', text: 'cctv 날씨 샘플' },
+  { name: 'busanAtt', text: '부산 명소' },
 ];
 
 const CategoriesBlock = styled.div`
   // flexbox를 사용하여 자식 요소들을 가로로 배치
   display: flex;
+
+  //실습1
+  justify-content: center;
 
   // 컨테이너 내부에 1rem(16px) 간격으로 패딩 추가
   padding: 1rem;
@@ -59,7 +63,6 @@ const CategoriesBlock = styled.div`
 //     color: #495057;
 //   }
 
-//   //추가
 //   ${(props) =>
 //     props.active &&
 //     css`
@@ -72,31 +75,14 @@ const CategoriesBlock = styled.div`
 //       }
 //     `}
 
+
 //   // 동일한 요소가 연속으로 배치될 때, 각 요소 간에 왼쪽 간격 1rem 추가
 //   & + & {
 //     margin-left: 1rem;
 //   }
 // `;
 
-// //추가
-// const Categories = ({ onSelect, category }) => {
-//   return (
-//     <CategoriesBlock>
-//       {categories.map((c) => (
-//         <Category
-//           key={c.name}
-//           active={category === c.name}
-//           //   추가
-//           onClick={() => onSelect(c.name)}
-//         >
-//           {c.text}
-//         </Category>
-//       ))}
-//     </CategoriesBlock>
-//   );
-// };
-
-// 교체
+//방법2, NavLink 주입 후, 조건부 렌더링 
 const Category = styled(NavLink)`
   font-size: 1.125rem;
   cursor: pointer;
@@ -113,31 +99,42 @@ const Category = styled(NavLink)`
     font-weight: 600;
     border-bottom: 2px solid #22b8cf;
     color: #22b8cf;
+    //실습2
+    transition: color 0.3s ease, border-bottom 0.3s ease;
 
     &:hover {
       color: #3bc9db;
     }
   }
 
+  // 카테고리의 요소들간의 간격, 
+  // 미디어 쿼리 이용해서, 조정. 
+  // 실습3
   & + & {
     margin-left: 1rem;
+    @media screen and (max-width: 768px) {
+      margin-left: 2rem;
+    }
   }
 `;
 
+// 교체, 기존은 부모로 부터 props 전달 받았고, 
+// 이제 props 받지 않아서, 사용 안함. 
 // const Categories = ({ onSelect, category }) => {
 const Categories = () => {
   return (
     <CategoriesBlock>
       {categories.map((c) => (
-        <Category
-          key={c.name}
+        <Category key={c.name}
+          //방법1
           // active={category === c.name}
-          //   추가
+          // //   추가
           // onClick={() => onSelect(c.name)}
+          // 방법2 
           to={c.name === 'all' ? '/' : `/${c.name}`}
-        >
-          {c.text}
-        </Category>
+        // 예시 , 
+        // http://localhost:5173/science
+        >{c.text}</Category>
       ))}
     </CategoriesBlock>
   );
