@@ -51,17 +51,16 @@ const NewsList = ({ category }) => {
     return null;
   }
 
-  // category가 'weather'일 때는 배열이고, 그렇지 않으면 뉴스 데이터 처리
   const data =
     category === 'weather'
       ? Array.isArray(resolved)
         ? resolved
-        : [] // weather가 아닌 다른 형태의 데이터가 올 경우 빈 배열 반환
+        : []
       : category === 'busanAtt'
       ? resolved.getAttractionKr?.item || []
       : Array.isArray(resolved.articles)
       ? resolved.articles
-      : []; // 기사 배열이 아닐 경우 빈 배열
+      : [];
 
   return (
     <NewsListBlock>
